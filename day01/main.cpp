@@ -12,9 +12,6 @@
 
 
 unsigned int part1(const std::vector<unsigned int> &depths){
-	// Edge case
-	if(depths.size() < 2) return 0;
-
 	// Counts the number of times the sequence strictly increases.
 	unsigned int count = 0;
 	for(unsigned int i = 1; i < depths.size(); ++i)
@@ -25,9 +22,6 @@ unsigned int part1(const std::vector<unsigned int> &depths){
 }
 
 unsigned int part2(const std::vector<unsigned int> &depths){
-	// Edge case
-	if(depths.size() < 4) return 0;
-
 	// Consdering three-element overlapping partitions,
 	// counts the number of times the sequence strictly increases.
 	unsigned int count = 0;
