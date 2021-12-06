@@ -18,19 +18,15 @@
 	Returns 2 iff there is no most common bit.
 	Assumes 'binNums' is non-empty, and 'pos' is a valid position.
 */
-unsigned int calcMostCommonBit(const std::list<std::string> &binNums, unsigned int pos){
+unsigned int mostCommonBit(const std::list<std::string> &binNums, unsigned int pos){
 	unsigned int sum = 0;
-	for(std::list<std::string>::const_iterator itr = binNums.begin(); itr != binNums.end(); ++itr)
-		sum += (*itr)[pos] - '0';
+	for(const std::string &binNum : binNums)
+		sum += binNum[pos] - '0';
 	
 	// '1' is the most common bit iff the sum of the bits is greater than half of the number of bits.
-	if(sum > binNums.size() / 2.0){
-		return 1;
-	} else if(sum < binNums.size() / 2.0){
-		return 0;
-	} else{
-		return 2;
-	}
+	if(sum > binNums.size() / 2.0) return 1;
+	else if(sum < binNums.size() / 2.0) return 0;
+	else return 2;
 }
 
 /*
@@ -58,7 +54,7 @@ unsigned int part1(const std::list<std::string> &report){
 	// Calculates the gamma rate.
 	unsigned int gamma = 0;
 	for(unsigned int power = 0; power < bitSize; ++power)
-		if(calcMostCommonBit(report, bitSize - power - 1) == 1)
+		if(mostCommonBit(report, bitSize - power - 1) == 1)
 			gamma += pow(2.0, power);
 	
 	// The epsilon rate is mathematically equivalent to:
@@ -75,7 +71,7 @@ unsigned int part2(const std::list<std::string> &report){
 	std::list<std::string> oxyCopy(report);
 	unsigned int pos = 0, bitCrit;
 	while(oxyCopy.size() != 1){
-		bitCrit = calcMostCommonBit(oxyCopy, pos);
+		bitCrit = mostCommonBit(oxyCopy, pos);
 		if(bitCrit == 2) bitCrit = 1;
 
 		filter(oxyCopy, pos, bitCrit);
@@ -89,7 +85,7 @@ unsigned int part2(const std::list<std::string> &report){
 	std::list<std::string> co2Copy(report);
 	pos = 0;
 	while(co2Copy.size() != 1){
-		bitCrit = calcMostCommonBit(co2Copy, pos);
+		bitCrit = mostCommonBit(co2Copy, pos);
 		switch(bitCrit){
 			case 0: bitCrit = 1; break;
 			case 1: bitCrit = 0; break;
