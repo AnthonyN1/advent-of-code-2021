@@ -2,14 +2,13 @@
 	AnthonyN1
 	Advent of Code 2021
 	Day 04 - https://adventofcode.com/2021/day/4
-	Board Implementation
+	Board Class
 */
 
 #ifndef __board_h_
 #define __board_h_
 
 #include <fstream>
-#include <iostream>
 
 
 class Board{
@@ -30,16 +29,6 @@ class Board{
 
 		// Misc.
 		unsigned int getScore(unsigned int multiplier) const;
-
-
-		void print(){
-			for(unsigned int i = 0; i < size_; ++i){
-				for(unsigned int j = 0; j < size_; ++j){
-					std::cout << board_[i][j] << " ";
-				}
-				std::cout << std::endl;
-			}
-		}
 	private:
 		void checkComplete();
 		bool colFilled(unsigned int c) const;

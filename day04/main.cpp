@@ -16,15 +16,16 @@
 
 
 /*
-	Returns (by arguments) the index of the winning board, and the last drawn number.
+	Returns (by arguments) the winning board, and the last drawn number.
 */
-void getWinner(const std::vector<unsigned int> &draws, std::vector<Board> &boards, unsigned int &winner, unsigned int &lastDraw){
+void getWinner(const std::vector<unsigned int> &draws, std::vector<Board> &boards, Board &winner, unsigned int &lastDraw){
 	for(unsigned int i = 0; i < draws.size(); ++i){
 		for(unsigned int boardIdx = 0; boardIdx < boards.size(); ++boardIdx){
 			boards[boardIdx].mark(draws[i]);
 			
+			// When a board completes, it wins.
 			if(boards[boardIdx].isComplete()){
-				winner = boardIdx;
+				winner = boards[boardIdx];
 				lastDraw = draws[i];
 				return;
 			}
@@ -33,6 +34,7 @@ void getWinner(const std::vector<unsigned int> &draws, std::vector<Board> &board
 }
 
 /*
+	Returns (by arguments) the board that wins last, and the last drawn number.
 */
 void getLoser(const std::vector<unsigned int> &draws, const std::vector<Board> &boards, Board &loser, unsigned int &lastDraw){
 	std::list<Board> remainingBoards(boards.begin(), boards.end());
@@ -42,6 +44,7 @@ void getLoser(const std::vector<unsigned int> &draws, const std::vector<Board> &
 		while(itr != remainingBoards.end()){
 			itr->mark(draws[i]);
 
+			// If a board completes, erases it from the list of remaining boards.
 			if(itr->isComplete()){
 				if(remainingBoards.size() == 1){
 					loser = *(remainingBoards.begin());
@@ -64,12 +67,12 @@ unsigned int part1(const std::vector<unsigned int> &draws, std::vector<Board> &b
 
 	// Finds the winning board.
 	// Assumes the winning board exists; i.e. the draws will produce a winning board.
-	unsigned int winner;
+	Board winner;
 	unsigned int lastDraw;
 	getWinner(draws, boards, winner, lastDraw);
 
 	// Returns the score of the winning board.
-	return boards[winner].getScore(lastDraw);
+	return winner.getScore(lastDraw);
 }
 
 unsigned int part2(const std::vector<unsigned int> &draws, std::vector<Board> &boards){
@@ -118,10 +121,10 @@ int main(int argc, char* argv[]){
 	unsigned int pos = 0;
 	unsigned int delimLoc;
 	while((delimLoc = line.find(',', pos)) != (unsigned int)(-1)){
-		draws.push_back(stoi(line.substr(pos, delimLoc - pos)));
+		draws.push_back(std::stoi(line.substr(pos, delimLoc - pos)));
 		pos = delimLoc + 1;
 	}
-	draws.push_back(stoi(line.substr(pos)));
+	draws.push_back(std::stoi(line.substr(pos)));
 
 	// Populates a vector with the 5x5 boards in the file.
 	// Assumes the number of unsigned ints in the file is a multiple of 25.

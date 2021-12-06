@@ -2,7 +2,7 @@
 	AnthonyN1
 	Advent of Code 2021
 	Day 04 - https://adventofcode.com/2021/day/4
-	Board Class
+	Board Implementation
 */
 
 #include <fstream>
@@ -12,6 +12,7 @@
 
 // Constructors
 /*
+	Default constructor.
 */
 Board::Board(){
 	complete_ = false;
@@ -65,16 +66,16 @@ void Board::mark(unsigned int num){
 
 // Operators
 /*
+	Returns true iff the boards have the same numbers in the same positions.
+	Assumes the provided boards are unique.
 */
 bool Board::operator==(const Board &other) const{
 	if(complete_ != other.complete_) return false;
 
-	for(unsigned int r = 0; r < size_; ++r){
-		for(unsigned int c = 0; c < size_; ++c){
-			if(board_[r][c] != other.board_[r][c]) return false;
-			//if(marks_[r][c] != other.marks_[r][c]) return false;
-		}
-	}
+	for(unsigned int r = 0; r < size_; ++r)
+		for(unsigned int c = 0; c < size_; ++c)
+			if(board_[r][c] != other.board_[r][c])
+				return false;
 
 	return true;
 }
