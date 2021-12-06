@@ -60,11 +60,11 @@ int main(int argc, char* argv[]){
 	// Assumes the file repeats the following format:
 	// <int>,<int> -> <int>,<int>
 	std::vector<std::pair<Coordinate, Coordinate>> lines;
-
+	
 	int x1, y1, x2, y2;
-    char comma1, comma2;
-    std::string arrow;
-    while(file >> x1 >> comma1 >> y1 >> arrow >> x2 >> comma2 >> y2){
+	char comma1, comma2;
+	std::string arrow;
+	while(file >> x1 >> comma1 >> y1 >> arrow >> x2 >> comma2 >> y2){
 		Coordinate start(x1, y1);
 		Coordinate end(x2, y2);
 		lines.push_back(std::make_pair(start, end));
