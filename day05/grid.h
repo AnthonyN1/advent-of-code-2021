@@ -11,14 +11,20 @@
 #include <unordered_map>
 #include <utility>
 
-#include "coordinate.h"
+
+struct Coordinate{
+		Coordinate(int x, int y): x_(x), y_(y) {}
+		int x_, y_;
+};
+
+bool operator==(const Coordinate &c1, const Coordinate &c2);
 
 
 class HashFunctor{
 	public:
 		unsigned int operator()(const Coordinate &key) const{
 			unsigned int prime = 1315423919;
-			return (prime + key.getX()) * (prime + key.getY());
+			return (prime + key.x_) * (prime + key.y_);
 		}
 };
 

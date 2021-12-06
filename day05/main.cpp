@@ -11,7 +11,6 @@
 #include <utility>
 #include <vector>
 
-#include "coordinate.h"
 #include "grid.h"
 
 
@@ -20,7 +19,7 @@ unsigned int part1(const std::vector<std::pair<Coordinate, Coordinate>> &lines){
 	Grid grid;
 
 	for(const std::pair<Coordinate, Coordinate> &line : lines)
-		if(line.first.getX() == line.second.getX() || line.first.getY() == line.second.getY())
+		if(line.first.x_ == line.second.x_ || line.first.y_ == line.second.y_)
 			grid.addLine(line);
 	
 	// Returns the number of times at least two lines overlap.
