@@ -12,37 +12,40 @@
 #include <vector>
 
 
-unsigned int part1(const std::vector<std::pair<std::string, unsigned int>> &directions){
+struct Instruction{
+	Instruction(const std::string &direction, unsigned int magnitude): direction_(direction), magnitude_(magnitude) {}
+	std::string direction_;
+	unsigned int magnitude_;
+};
+
+
+unsigned int part1(const std::vector<Instruction> &instructions){
 	unsigned int horizontal = 0, depth = 0;
 
 	// Records the horizontal and vertical position of the submarine.
-	// Ignores directions not in the form of "forward x", "up x", or "down x".
-	for(unsigned int i = 0; i < directions.size(); ++i){
-		if(directions[i].first == "forward"){
-			horizontal += directions[i].second;
-		} else if(directions[i].first == "up"){
-			depth -= directions[i].second;
-		} else if(directions[i].first == "down"){
-			depth += directions[i].second;
-		}
+	// Assumes directions are in the form of "forward x", "up x", or "down x".
+	for(const Instruction &inst : instructions){
+		if(inst.direction_ == "forward") horizontal += inst.magnitude_;
+		else if(inst.direction_ == "up") depth -= inst.magnitude_;
+		else if(inst.direction_ == "down") depth += inst.magnitude_;
 	}
 	
 	return horizontal * depth;
 }
 
-unsigned int part2(const std::vector<std::pair<std::string, unsigned int>> &directions){
+unsigned int part2(const std::vector<Instruction> &instructions){
 	unsigned int horizontal = 0, aim = 0, depth = 0;
 
 	// Records the horizontal and vertical position of the submarine.
-	// Ignores directions not in the form of "forward x", "up x", or "down x".
-	for(unsigned int i = 0; i < directions.size(); ++i){
-		if(directions[i].first == "forward"){
-			horizontal += directions[i].second;
-			depth += aim * directions[i].second;
-		} else if(directions[i].first == "up"){
-			aim -= directions[i].second;
-		} else if(directions[i].first == "down"){
-			aim += directions[i].second;
+	// Assumes directions are in the form of "forward x", "up x", or "down x".
+	for(const Instruction &inst : instructions){
+		if(inst.direction_ == "forward"){
+			horizontal += inst.magnitude_;
+			depth += aim * inst.magnitude_;
+		} else if(inst.direction_ == "up"){
+			aim -= inst.magnitude_;
+		} else if(inst.direction_ == "down"){
+			aim += inst.magnitude_;
 		}
 	}
 	
@@ -70,24 +73,24 @@ int main(int argc, char* argv[]){
 
 	// Populates a vector with values from the file.
 	// Assumes the file contains pairs of strings and non-negative integers separated by whitespace.
-	std::vector<std::pair<std::string, unsigned int>> directions;
-	std::string str_temp;
-	unsigned int int_temp;
-	while(file >> str_temp >> int_temp)
-		directions.push_back(std::make_pair(str_temp, int_temp));
+	std::vector<Instruction> instructions;
+	std::string strTemp;
+	unsigned int intTemp;
+	while(file >> strTemp >> intTemp)
+		instructions.push_back(Instruction(strTemp, intTemp));
 	
 	file.close();
 	
 
 	// Part 1
 	std::cout << "Part 1:\nWhat do you get if you multiply your final horizontal position by your final depth?" << std::endl;
-	std::cout << part1(directions) << std::endl;
+	std::cout << part1(instructions) << std::endl;
 
 	std::cout << std::endl;
 
 	// Part 2
 	std::cout << "Part 2:\nWhat do you get if you multiply your final horizontal position by your final depth?" << std::endl;
-	std::cout << part2(directions) << std::endl;
+	std::cout << part2(instructions) << std::endl;
 
 	return 0;
 }
